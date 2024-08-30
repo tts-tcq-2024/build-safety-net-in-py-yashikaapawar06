@@ -10,23 +10,18 @@ def get_soundex_code(c):
     }
     return mapping.get(c, '0')  # Default to '0' for non-mapped characters
 
-
 def process_name(name):
     soundex = name[0].upper()
     prev_code = get_soundex_code(soundex)
+    result = [soundex]
 
-    def process_char(char):
-        nonlocal prev_code
+    for char in name[1:]:
         code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
+        if code != prev_code and code != '0':  # Avoid adding '0' or repeating the same code
+            result.append(code)
             prev_code = code
-            return code
-        if code != prev_code:
-            prev_code = code
-        return ''
 
-    return soundex + ''.join(filter(None, map(process_char, name[1:])))
-
+    return ''.join(result)
 
 def generate_soundex(name):
     if not name:
