@@ -8,23 +8,30 @@ def get_soundex_code(c):
         'M': '5', 'N': '5',
         'R': '6'
     }
-    return mapping.get(c, '0')  # Default to '0' for non-mapped characters
+    return mapping.get(c, '0')  # Default to '0' for vowels and other non-mapped characters
 
 def process_name(name):
+    if not name:  # Handle empty string
+        return ""
+
     soundex = name[0].upper()
     prev_code = get_soundex_code(soundex)
     result = [soundex]
 
-    for char in name[1:]:
+    def process_char(char):
+        nonlocal prev_code
         code = get_soundex_code(char)
-        if code != prev_code and code != '0':  # Avoid adding '0' or repeating the same code
+        if code != '0' and code != prev_code:
             result.append(code)
             prev_code = code
+
+    for char in name[1:]:
+        process_char(char)
 
     return ''.join(result)
 
 def generate_soundex(name):
-    if not name:
+    if not name:  # Handle empty string
         return ""
     soundex = process_name(name)
     return soundex[:4].ljust(4, '0')
