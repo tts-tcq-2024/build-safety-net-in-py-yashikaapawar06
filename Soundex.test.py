@@ -3,7 +3,6 @@ from Soundex import generate_soundex, get_soundex_code, process_name
 
 class TestSoundex(unittest.TestCase):
 
-    # Tests for the generate_soundex function
     def test_empty_string(self):
         self.assertEqual(generate_soundex(""), "")
 
@@ -31,7 +30,6 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(generate_soundex("Hhh"), "H000")
         self.assertEqual(generate_soundex("Yy"), "Y000")
     
-    # Tests for the get_soundex_code function
     def test_get_soundex_code(self):
         self.assertEqual(get_soundex_code('A'), '0')
         self.assertEqual(get_soundex_code('B'), '1')
@@ -41,9 +39,8 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(get_soundex_code('M'), '5')
         self.assertEqual(get_soundex_code('R'), '6')
         self.assertEqual(get_soundex_code('Z'), '2')
-        self.assertEqual(get_soundex_code('*'), '0')  
+        self.assertEqual(get_soundex_code('*'), '0')  # Non-mapped character
 
-    # Tests for the process_name function
     def test_process_name(self):
         self.assertEqual(process_name("Smith"), "S53")
         self.assertEqual(process_name("Ashcraft"), "A261")
