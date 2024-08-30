@@ -21,6 +21,8 @@ def process_name(name):
         if code != '0' and code != prev_code:
             prev_code = code
             return code
+        if code != prev_code:
+            prev_code = code
         return ''
 
     return soundex + ''.join(filter(None, map(process_char, name[1:])))
