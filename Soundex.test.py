@@ -47,7 +47,7 @@ class TestSoundex(unittest.TestCase):
     def test_process_name(self):
         self.assertEqual(process_name("Smith"), "S53")
         self.assertEqual(process_name("Ashcraft"), "A261")
-        self.assertEqual(process_name("Tymczak"), "T52")
+        self.assertEqual(process_name("Tymczak"), "T522")
         self.assertEqual(process_name("Robert"), "R163")
         self.assertEqual(process_name("Rupert"), "R163")
         self.assertEqual(process_name("A"), "A")
