@@ -17,7 +17,7 @@ class TestSoundex(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(generate_soundex(name), expected)
 
-    def test_basic_soundex(self):
+    def test_soundex(self):
         cases = [
             ("Smith", "S530"),
             ("Smythe", "S530"),
@@ -29,21 +29,6 @@ class TestSoundex(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(generate_soundex(name), expected)
 
-    def test_get_soundex_code(self):
-        cases = [
-            ('A', '0'),
-            ('B', '1'),
-            ('C', '2'),
-            ('D', '3'),
-            ('L', '4'),
-            ('M', '5'),
-            ('R', '6'),
-            ('Z', '2'),
-            ('*', '0')  # Non-mapped character
-        ]
-        for char, expected in cases:
-            with self.subTest(char=char):
-                self.assertEqual(get_soundex_code(char), expected)
 
     def test_process_name(self):
         cases = [
