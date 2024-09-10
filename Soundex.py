@@ -8,7 +8,7 @@ SOUNDEX_MAPPING = {
 }
 def get_soundex_code(c):
     c = c.upper()
-     return SOUNDEX_MAPPING.get(c, '0')
+    return SOUNDEX_MAPPING.get(c, '0')
 
 def process_name(name):
     if not name:  # Handle empty string
@@ -17,18 +17,6 @@ def process_name(name):
     soundex = name[0].upper()
     prev_code = get_soundex_code(soundex)
     result = [soundex]
-
-    def process_character(char):
-        nonlocal prev_code
-        code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
-            result.append(code)
-            prev_code = code
-
-    for char in name[1:]:
-        process_char(char)
-
-    return ''.join(result)
 
 def generate_soundex(name):
     if not name:  # Handle empty string
