@@ -18,6 +18,18 @@ def process_name(name):
     prev_code = get_soundex_code(soundex)
     result = [soundex]
 
+ def process_char(char):
+        nonlocal prev_code
+        code = get_soundex_code(char)
+        if code != '0' and code != prev_code:
+            result.append(code)
+            prev_code = code
+
+    for char in name[1:]:
+        process_char(char)
+
+    return ''.join(result)
+
 def generate_soundex(name):
     if not name:  # Handle empty string
         return ""
