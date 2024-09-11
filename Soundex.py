@@ -14,6 +14,13 @@ def process_char(prev_code, char):
     code = get_soundex_code(char)
     return code if code != '0' and code != prev_code else None
 
+def add_char_to_result(char, prev_code, result):
+    code = process_char(prev_code, char)
+    if code:
+        result.append(code)
+        return code
+    return prev_code
+
 def process_name(name):
     if not name:
         return ""
@@ -21,12 +28,9 @@ def process_name(name):
     soundex = name[0].upper()
     prev_code = get_soundex_code(soundex)
     result = [soundex]
-
+    
     for char in name[1:]:
-        code = process_char(prev_code, char)
-        if code:
-            result.append(code)
-            prev_code = code
+        prev_code = add_char_to_result(char, prev_code, result)
 
     return ''.join(result)
 
