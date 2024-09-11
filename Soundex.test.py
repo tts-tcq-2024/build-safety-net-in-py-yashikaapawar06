@@ -1,35 +1,53 @@
-SOUNDEX_MAPPING = {
-    'B': '1', 'F': '1', 'P': '1', 'V': '1',
-    'C': '2', 'G': '2', 'J': '2', 'K': '2', 'Q': '2', 'S': '2', 'X': '2', 'Z': '2',
-    'D': '3', 'T': '3',
-    'L': '4',
-    'M': '5', 'N': '5',
-    'R': '6'
-}
+import unittest
+import Soundex  # Import the whole file/module
 
-def get_soundex_code(c):
-    return SOUNDEX_MAPPING.get(c.upper(), '0')
+class TestSoundex(unittest.TestCase):
 
-def process_char(prev_code, char):
-    code = get_soundex_code(char)
-    return code if code != '0' and code != prev_code else None
+    def test_empty_string(self):
+        cases = [
+            ("", "")
+        ]
+        for name, expected in cases:
+            with self.subTest(name=name):
+                self.assertEqual(Soundex.generate_soundex(name), expected)
 
-def process_name(name):
-    if not name:
-        return ""
-    
-    soundex = name[0].upper()
-    prev_code = get_soundex_code(soundex)
-    result = [soundex]
+    def test_single_characters(self):
+        cases = [
+            ("A", "A000"),
+            ("B", "B000"),
+            ("Z", "Z000"),
+            ("Aeiou", "A000"),
+            ("Hhh", "H000"),
+            ("Yy", "Y000")
+        ]
+        for name, expected in cases:
+            with self.subTest(name=name):
+                self.assertEqual(Soundex.generate_soundex(name), expected)
 
-    for char in name[1:]:
-        code = process_char(prev_code, char)
-        if code:
-            result.append(code)
-            prev_code = code
+    def test_soundex(self):
+        cases = [
+            ("Smith", "S530"),
+            ("Smythe", "S530"),
+            ("Pfister", "P236"),
+            ("Robert", "R163"),
+            ("Rupert", "R163")
+        ]
+        for name, expected in cases:
+            with self.subTest(name=name):
+                self.assertEqual(Soundex.generate_soundex(name), expected)
 
-    return ''.join(result)
+    def test_process_name(self):
+        cases = [
+            ("Smith", "S53"),
+            ("Robert", "R163"),
+            ("Rupert", "R163"),
+            ("A", "A"),
+            ("B", "B"),
+            ("", "")
+        ]
+        for name, expected in cases:
+            with self.subTest(name=name):
+                self.assertEqual(Soundex.process_name(name), expected)
 
-def generate_soundex(name):
-    soundex = process_name(name)
-    return soundex[:4].ljust(4, '0') if soundex else ""
+if __name__ == '__main__':
+    unittest.main()
