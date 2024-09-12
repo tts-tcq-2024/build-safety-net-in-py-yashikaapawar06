@@ -1,17 +1,19 @@
 import unittest
-import Soundex  # Import the whole file/module
+import Soundex  
 
 class TestSoundex(unittest.TestCase):
 
+    def assert_soundex(self, name, expected):
+        """Helper function to assert soundex code to avoid repeating logic."""
+        self.assertEqual(Soundex.generate_soundex(name), expected)
+
     def test_empty_string(self):
-        cases = [
-            ("", "")
-        ]
+        cases = [("", "")]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(Soundex.generate_soundex(name), expected)
+                self.assert_soundex(name, expected)
 
-    def test_single_characters(self):
+    def test_characters(self):
         cases = [
             ("A", "A000"),
             ("B", "B000"),
@@ -22,7 +24,7 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(Soundex.generate_soundex(name), expected)
+                self.assert_soundex(name, expected)
 
     def test_soundex(self):
         cases = [
@@ -34,7 +36,11 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(Soundex.generate_soundex(name), expected)
+                self.assert_soundex(name, expected)
+
+    def assert_process_name(self, name, expected):
+        """Helper function to assert process_name output."""
+        self.assertEqual(Soundex.process_name(name), expected)
 
     def test_process_name(self):
         cases = [
@@ -47,7 +53,7 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(Soundex.process_name(name), expected)
+                self.assert_process_name(name, expected)
 
 if __name__ == '__main__':
     unittest.main()
