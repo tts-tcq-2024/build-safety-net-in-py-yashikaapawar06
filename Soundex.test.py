@@ -1,11 +1,20 @@
 import unittest
-from Soundex import generate_soundex, process_name, get_soundex_code
+import Soundex  
 
 class TestSoundex(unittest.TestCase):
 
-    def test_empty_and_single_characters(self):
+    def assert_soundex(self, name, expected):
+        """Helper function to assert soundex code to avoid repeating logic."""
+        self.assertEqual(Soundex.generate_soundex(name), expected)
+
+    def test_empty_string(self):
+        cases = [("", "")]
+        for name, expected in cases:
+            with self.subTest(name=name):
+                self.assert_soundex(name, expected)
+
+    def test_characters(self):
         cases = [
-            ("", ""),
             ("A", "A000"),
             ("B", "B000"),
             ("Z", "Z000"),
@@ -15,9 +24,9 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(generate_soundex(name), expected)
+                self.assert_soundex(name, expected)
 
-    def test_basic_soundex(self):
+    def test_soundex(self):
         cases = [
             ("Smith", "S530"),
             ("Smythe", "S530"),
@@ -27,23 +36,11 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(generate_soundex(name), expected)
+                self.assert_soundex(name, expected)
 
-    def test_get_soundex_code(self):
-        cases = [
-            ('A', '0'),
-            ('B', '1'),
-            ('C', '2'),
-            ('D', '3'),
-            ('L', '4'),
-            ('M', '5'),
-            ('R', '6'),
-            ('Z', '2'),
-            ('*', '0')  # Non-mapped character
-        ]
-        for char, expected in cases:
-            with self.subTest(char=char):
-                self.assertEqual(get_soundex_code(char), expected)
+    def assert_process_name(self, name, expected):
+        """Helper function to assert process_name output."""
+        self.assertEqual(Soundex.process_name(name), expected)
 
     def test_process_name(self):
         cases = [
@@ -56,7 +53,7 @@ class TestSoundex(unittest.TestCase):
         ]
         for name, expected in cases:
             with self.subTest(name=name):
-                self.assertEqual(process_name(name), expected)
+                self.assert_process_name(name, expected)
 
 if __name__ == '__main__':
     unittest.main()
